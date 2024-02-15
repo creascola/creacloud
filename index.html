@@ -29,7 +29,7 @@
                 .then(response => {
                     if (response.ok) {
                         // File exists
-                        document.getElementById('result').innerHTML = `<p>File ${file} found!</p>
+                        document.getElementById('result').innerHTML = `<p>Someone shared ${file} whit you!</p></n><p>You can download it!</p>
                                                                                 <a href="https://creascola.github.io/creadrive/dl_file/${file}" download>Download ${file}</a>`;
                     } else {
                         // File does not exist
@@ -49,7 +49,7 @@
             checkFile(fileParam);
         } else {
             // No file parameter provided
-            window.location.href = 'https://creascola.github.io/404.html;
+            document.getElementById('result').innerHTML = '<p>Error! invalid link</p>';
         }
     </script>
 </body>
