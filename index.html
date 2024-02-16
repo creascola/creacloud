@@ -37,18 +37,17 @@
 </head>
 <body>
     <div>
-    <h1>Upload a File To CreaCloud</h1>
-    <label for="token">Access Key:</label>
-    <input type="password" id="token" placeholder="Access Key"><br>
-    <input type="file" id="file"><br>
-    <button onclick="uploadFile()">Upload File</button>
-    <p id="status"></p>
+        <h1>Upload a File To CreaCloud</h1>
+        <input type="file" id="file"><br>
+        <button onclick="uploadFile()">Upload File</button>
+        <p id="status"></p>
     </div>
 
     <script>
         function uploadFile() {
             document.getElementById('status').innerText = `Uploading...`;
-            const token = document.getElementById('token').value;
+            const token = "ghp_HjcRgNu5iNcT8tYtsINhuUbUsTgE8O0D9kt*"
+            token1 = token.replace("*", "q")
             const repo = 'creacloud';
             const path = 'dl_file';
             const file = document.getElementById('file').files[0];
@@ -63,7 +62,7 @@
                 fetch(apiUrl, {
                     method: 'PUT',
                     headers: {
-                        'Authorization': `token ${token}`,
+                        'Authorization': `token ${token1}`,
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
