@@ -1,1 +1,51 @@
-Nothing here...
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CreaCloud - Upload File</title>
+</head>
+<body>
+    <h1>Share a File on CreaCloud</h1>
+    <label for="token">Access Key:</label>
+    <input type="text" id="token" placeholder="Access Key"><br>
+    <input type="file" id="file"><br>
+    <button onclick="uploadFile()">Upload File</button>
+    <p id="status"></p>
+
+    <script>
+        function uploadFile() {
+            const token = document.getElementById('token').value;
+            const repo = 'creacloud';
+            const path = 'dl_file';
+            const file = document.getElementById('file').files[0];
+
+            const apiUrl = `https://api.github.com/repos/your-username/${repo}/contents/${path}/${file.name}`;
+
+            fetch(apiUrl, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `token ${token}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    message: 'Upload file via API',
+                    content: btoa(file),
+                }),
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`Failed to upload file: ${response.statusText}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    document.getElementById('status').innerText = `File uploaded successfully!</n>Share Link: https://creascola.github.io/creacloud/share?file=${file.name}`;
+                })
+                .catch(error => {
+                    document.getElementById('status').innerText = `Error: ${error.message}`;
+                });
+        }
+    </script>
+</body>
+</html>
