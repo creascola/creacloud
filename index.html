@@ -41,7 +41,7 @@
     <script>
         // Function to check if a file exists in the GitHub repository
         function checkFile(file) {
-            const githubRepo = 'https://api.github.com/repos/creascola/creadrive';
+            const githubRepo = 'https://api.github.com/repos/creascola/creacloud';
             const apiUrl = `${githubRepo}/contents/dl_file/${file}`;
 
             fetch(apiUrl)
@@ -49,7 +49,7 @@
                     if (response.ok) {
                         // File exists
                         document.getElementById('result').innerHTML = `<h1>CreaCloud</h1></n><p>Someone shared ${file} whit you!</p></n><p>You can download it!</p>
-                                                                                <a href="https://creascola.github.io/creadrive/dl_file/${file}" download>Download ${file}</a>`;
+                                                                                <a href="https://creascola.github.io/creacloud/dl_file/${file}" download>Download ${file}</a>`;
                     } else {
                         // File does not exist
                         document.getElementById('result').innerHTML = `<h1>CreaCloud</h1></n><p>Error! file not found... thats all what we know</p>`;;
