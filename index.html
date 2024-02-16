@@ -1,4 +1,34 @@
 <!DOCTYPE html>
+<style>
+    body {
+        background-color: #f0f0f2;
+        margin: 0;
+        padding: 0;
+        font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        text-align: center;
+    }
+
+    div {
+        width: 600px;
+        margin: 5em auto;
+        padding: 2em;
+        background-color: #fdfdff;
+        border-radius: 0.5em;
+        box-shadow: 2px 3px 7px 2px rgba(0,0,0,0.02);
+    }
+
+    a:link, a:visited {
+        color: #38488f;
+        text-decoration: none;
+    }
+
+    @media (max-width: 700px) {
+        div {
+            margin: 0 auto;
+            width: auto;
+        }
+    }
+</style>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -6,15 +36,18 @@
     <title>CreaCloud - Upload File</title>
 </head>
 <body>
-    <h1>Share a File on CreaCloud</h1>
+    <div>
+    <h1>Upload a File To CreaCloud</h1>
     <label for="token">Access Key:</label>
-    <input type="text" id="token" placeholder="Access Key"><br>
+    <input type="password" id="token" placeholder="Access Key"><br>
     <input type="file" id="file"><br>
     <button onclick="uploadFile()">Upload File</button>
     <p id="status"></p>
+    </div>
 
     <script>
         function uploadFile() {
+            document.getElementById('status').innerText = `Uploading...`;
             const token = document.getElementById('token').value;
             const repo = 'creacloud';
             const path = 'dl_file';
@@ -22,29 +55,37 @@
 
             const apiUrl = `https://api.github.com/repos/creascola/${repo}/contents/${path}/${file.name}`;
 
-            fetch(apiUrl, {
-                method: 'PUT',
-                headers: {
-                    'Authorization': `token ${token}`,
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    message: 'Upload file via API',
-                    content: btoa(file),
-                }),
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`Failed to upload file: ${response.statusText}`);
-                    }
-                    return response.json();
+            const reader = new FileReader();
+            reader.onload = function (event) {
+                const fileContent = event.target.result;
+                const contentEncoded = btoa(String.fromCharCode.apply(null, new Uint8Array(fileContent)));
+
+                fetch(apiUrl, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        message: 'Upload file via API',
+                        content: contentEncoded,
+                        encoding: 'base64'
+                    }),
                 })
-                .then(data => {
-                    document.getElementById('status').innerText = `File uploaded successfully!</n>Share Link: https://creascola.github.io/creacloud/share?file=${file.name}`;
-                })
-                .catch(error => {
-                    document.getElementById('status').innerText = `Error: ${error.message}`;
-                });
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`Failed to upload file: ${response.statusText}`);
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        document.getElementById('status').innerHTML = `File Uploaded! You Can share it whit link:<br><a href="https://creascola.github.io/creacloud/share?file=${file.name}">https://creascola.github.io/creacloud/share?file=${file.name}</a>`;
+                    })
+                    .catch(error => {
+                        document.getElementById('status').innerText = `Error: ${error.message}`;
+                    });
+            };
+            reader.readAsArrayBuffer(file);
         }
     </script>
 </body>
