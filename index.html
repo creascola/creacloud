@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CreaDrive - Shared File</title>
+    <title>CreaCloud - Shared File</title>
     <style type="text/css">
         body {
             background-color: #f0f0f2;
@@ -48,11 +48,11 @@
                 .then(response => {
                     if (response.ok) {
                         // File exists
-                        document.getElementById('result').innerHTML = `<h1>CreaDrive</h1></n><p>Someone shared ${file} whit you!</p></n><p>You can download it!</p>
+                        document.getElementById('result').innerHTML = `<h1>CreaCloud</h1></n><p>Someone shared ${file} whit you!</p></n><p>You can download it!</p>
                                                                                 <a href="https://creascola.github.io/creadrive/dl_file/${file}" download>Download ${file}</a>`;
                     } else {
                         // File does not exist
-                        document.getElementById('result').innerHTML = `<h1>CreaDrive</h1></n><p>Error! file not found... thats all what we know</p>`;;
+                        document.getElementById('result').innerHTML = `<h1>CreaCloud</h1></n><p>Error! file not found... thats all what we know</p>`;;
                     }
                 })
                 .catch(error => console.error('Error:', error));
@@ -68,7 +68,7 @@
             checkFile(fileParam);
         } else {
             // No file parameter provided
-            document.getElementById('result').innerHTML = '<h1>CreaDrive</h1></n><p>Error! invalid link</p>';
+            document.getElementById('result').innerHTML = '<h1>CreaCloud</h1></n><p>Error! invalid link</p>';
         }
     </script>
 </body>
