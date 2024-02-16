@@ -1,0 +1,6 @@
+index.html:28 Uncaught DOMException: Failed to execute 'btoa' on 'Window': The string to be encoded contains characters outside of the Latin1 range.
+    at reader.onload (file:///C:/Users/balaz/Desktop/share/index.html:28:40)
+reader.onload @ index.html:28
+load (async)
+uploadFile @ index.html:26
+onclick @ index.html:13
