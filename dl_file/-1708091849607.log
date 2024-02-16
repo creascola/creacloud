@@ -1,0 +1,44 @@
+index.html:72 
+        
+        
+       PUT https://api.github.com/repos/creascola/creacloud/contents/dl_file/-1708089672621.log 401 (Unauthorized)
+reader.onload @ index.html:72
+load (async)
+uploadFile @ index.html:68
+onclick @ index.html:44
+index.html:70 Uncaught RangeError: Maximum call stack size exceeded
+    at reader.onload (index.html:70:65)
+reader.onload @ index.html:70
+load (async)
+uploadFile @ index.html:68
+onclick @ index.html:44
+index.html:70 Uncaught RangeError: Maximum call stack size exceeded
+    at reader.onload (index.html:70:65)
+reader.onload @ index.html:70
+load (async)
+uploadFile @ index.html:68
+onclick @ index.html:44
+index.html:70 Uncaught RangeError: Maximum call stack size exceeded
+    at reader.onload (index.html:70:65)
+reader.onload @ index.html:70
+load (async)
+uploadFile @ index.html:68
+onclick @ index.html:44
+index.html:70 Uncaught RangeError: Maximum call stack size exceeded
+    at reader.onload (index.html:70:65)
+reader.onload @ index.html:70
+load (async)
+uploadFile @ index.html:68
+onclick @ index.html:44
+index.html:70 Uncaught RangeError: Maximum call stack size exceeded
+    at reader.onload (index.html:70:65)
+reader.onload @ index.html:70
+load (async)
+uploadFile @ index.html:68
+onclick @ index.html:44
+index.html:70 Uncaught RangeError: Maximum call stack size exceeded
+    at reader.onload (index.html:70:65)
+reader.onload @ index.html:70
+load (async)
+uploadFile @ index.html:68
+onclick @ index.html:44
