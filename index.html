@@ -1,90 +1,130 @@
 <!DOCTYPE html>
-<style>
-    body {
-        background-color: #f0f0f2;
-        margin: 0;
-        padding: 0;
-        font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-        text-align: center;
-    }
-
-    div {
-        width: 600px;
-        margin: 5em auto;
-        padding: 2em;
-        background-color: #fdfdff;
-        border-radius: 0.5em;
-        box-shadow: 2px 3px 7px 2px rgba(0,0,0,0.02);
-    }
-
-    a:link, a:visited {
-        color: #38488f;
-        text-decoration: none;
-    }
-
-    @media (max-width: 700px) {
-        div {
-            margin: 0 auto;
-            width: auto;
-        }
-    }
-</style>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CreaCloud - Upload File</title>
+    <title>CreaCloud - Upload</title>
+    <style>
+        body {
+            background-color: #f0f0f2;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+
+        .nigger {
+            background-color: #008CBA;
+            border-radius: 12px;
+        }
+
+        div {
+            width: 600px;
+            margin: 5em auto;
+            padding: 2em;
+            background-color: #fdfdff;
+            border-radius: 0.5em;
+            box-shadow: 2px 3px 7px 2px rgba(0,0,0,0.02);
+            text-align: center
+        }
+
+        a:link, a:visited {
+            color: #38488f;
+            text-decoration: none;
+        }
+
+        @media (max-width: 700px) {
+            div {
+                margin: 0 auto;
+                width: auto;
+            }
+        }
+        #overlay {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 20px;
+            z-index: 9999;
+            text-align: center
+        }
+    </style>
 </head>
 <body>
     <div>
-        <h1>Upload a File To CreaCloud</h1>
-        <input type="file" id="file"><br>
-        <button onclick="uploadFile()">Upload File</button>
+        <h1>Share a File on CreaCloud</h1><br />
+        <label for="fileInput">Choose a File: </label>
+        <input type="file" id="fileInput" required><br />
+        <button onclick="uploadFile()" class="nigger"><img src="https://cdn-icons-png.flaticon.com/512/126/126477.png" width="15" height="15">Upload</button>
         <p id="status"></p>
     </div>
+    <div id="overlay">
+        <h2>This is the focused div</h2>
+        <p>This div is now focused.</p>
+    </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
+        function close_alert() {
+            var overlay = document.getElementById("overlay");
+            overlay.style.display = "none";
+        }
+        function alert_new(text) {
+            var overlay = document.getElementById("overlay");
+            overlay.innerHTML = `${text}</br><button onclick="close_alert()">Ok</button>`
+            overlay.style.display = "block";
+            overlay.focus();
+        }
         function uploadFile() {
-            document.getElementById('status').innerText = `Uploading...`;
             const token = "ghp_HjcRgNu5iNcT8tYtsINhuUbUsTgE8O0D9kt*"
             token1 = token.replace("*", "q")
+            document.getElementById('status').innerHTML = `<img src="https://i.gifer.com/origin/34/34338d26023e5515f6cc8969aa027bca.gif" width="15" height="15" />Uploading...`
+            const apiKeyInput = token1
+            const fileInput = document.getElementById('fileInput');
+
+            const file = fileInput.files[0];
+            if (!file) {
+                alert_new('Please select a file.');
+                document.getElementById('status').innerHTML = ""
+                return;
+            }
+
+            const apiKey = token1;
+            if (apiKey === '') {
+                alert_new('Error! this error is 99% our fault!');
+                document.getElementById('status').innerHTML = ""
+                return;
+            }
+
+            const owner = 'creascola';
             const repo = 'creacloud';
-            const path = 'dl_file';
-            const file = document.getElementById('file').files[0];
+            const path = 'dl_file/' + file.name;
 
-            const apiUrl = `https://api.github.com/repos/creascola/${repo}/contents/${path}/${file.name}`;
-
+            const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
             const reader = new FileReader();
-            reader.onload = function (event) {
-                const fileContent = event.target.result;
-                const contentEncoded = btoa(String.fromCharCode.apply(null, new Uint8Array(fileContent)));
 
-                fetch(apiUrl, {
-                    method: 'PUT',
+            reader.onloadend = function () {
+                const fileContent = reader.result.split(',')[1];
+                const data = {
+                    message: 'Upload file',
+                    content: fileContent,
+                };
+
+                axios.put(apiUrl, data, {
                     headers: {
-                        'Authorization': `token ${token1}`,
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        message: 'Upload file via API',
-                        content: contentEncoded,
-                        encoding: 'base64'
-                    }),
+                        'Authorization': `Token ${apiKey}`,
+                    }
                 })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error(`Failed to upload file: ${response.statusText}`);
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
+                    .then(function (response) {
                         document.getElementById('status').innerHTML = `File Uploaded! You Can share it whit link:<br><a href="https://creascola.github.io/creacloud/share?file=${file.name}">https://creascola.github.io/creacloud/share?file=${file.name}</a>`;
                     })
-                    .catch(error => {
-                        document.getElementById('status').innerText = `Error: ${error.message}`;
+                    .catch(function (error) {
+                        alert_new(`Error: ${error}`);
+                        document.getElementById('status').innerHTML = ""
                     });
             };
-            reader.readAsArrayBuffer(file);
+
+            reader.readAsDataURL(file);
         }
     </script>
 </body>
