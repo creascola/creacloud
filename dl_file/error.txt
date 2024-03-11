@@ -1,0 +1,1 @@
+adb: failed to install C:\Users\KókaiBalázs_1vhydzi\Desktop\SignApk-master\bs-signed.apk: Failure [-124: Failed parse during installPackageLI: Targeting R+ (version 30 and above) requires the resources.arsc of installed APKs to be stored uncompressed and aligned on a 4-byte boundary]
