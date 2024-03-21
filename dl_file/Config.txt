@@ -1,0 +1,6 @@
+Public IP: 86.101.141.69
+Local IP: 192.168.88.253
+
+Forwarded Port: 9339
+
+Server: v52
