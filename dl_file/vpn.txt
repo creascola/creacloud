@@ -1,0 +1,6 @@
+VPN:
+
+Adress: 642e078fbd00.sn.mynetname.net
+
+User: vpn
+Password: admin
