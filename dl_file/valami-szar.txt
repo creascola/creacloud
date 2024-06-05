@@ -1,3 +1,0 @@
-email : laszlo.kokai@gmail.com
-password: .3Pikolo4
-ip: 89.134.194.126
